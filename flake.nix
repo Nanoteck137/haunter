@@ -13,8 +13,20 @@
         pkgs = import nixpkgs {
           inherit system overlays;
         };
+
+        app = pkgs.buildGoModule {
+          pname = "haunter";
+          version = "0.0.1";
+          src = ./.;
+
+          vendorHash = "sha256-8lWgRCDFN6ifbqvz+B/H9GSZC8F5KuRyjWB1Y3RGTts=";
+
+          CGO_ENABLED = false;
+        };
       in
       {
+        packages.default = app;
+
         devShells.default = pkgs.mkShell {
           buildInputs = with pkgs; [
             go_1_20
